@@ -9,8 +9,8 @@ public class Sender {
 		
 		List<Thread> threadList = new ArrayList<>();
 		
-		for (int i = 1; i <= 10; i++) {			
-			WorkerJob wj = new Sender(). new WorkerJob();
+		for (int i = 1; i <= 100; i++) {			
+			WorkerJob wj = new Sender(). new WorkerJob(); 
 			wj.processValue = "P-"+i;
 			Thread t = new Thread(wj);	
 			t.start();
@@ -26,6 +26,8 @@ public class Sender {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("Sending done...");
 	}
 	
 	public static int randomNumber(){
@@ -56,6 +58,8 @@ public class Sender {
 		ProgressReporter.reportProcess(report);
 		int delay = randomNumber()*100;
 		
+		int shouldIPause = randomNumber();
+		
 //		int delay = 1000;
 		
 
@@ -63,7 +67,18 @@ public class Sender {
 			doLongProgress(delay);
 			report.setProgressPercentage(i);
 			report.setFileSize(i+"/100MB");
+			
+			//Flag code
+			if(shouldIPause == 5) {
+				report.setProgressState(ProgressReport.DANGER);
+			}
+			
+			if(i==100) {
+				report.setProgressState(ProgressReport.SUCCESS);
+			}
+			//End Flag Code
 			ProgressReporter.reportProcess(report);
+			
 		}
 	}
 

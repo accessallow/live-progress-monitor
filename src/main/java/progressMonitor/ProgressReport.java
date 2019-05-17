@@ -12,12 +12,28 @@ public class ProgressReport{
 	String openStackId;
 	String fileSize;
 	
+	String progressState = NORMAL;
+	
+	public static String NORMAL = "";
+	public static String INFO = "progress-bar-info";
+	public static String SUCCESS = "progress-bar-success";
+	public static String WARNING = "progress-bar-warning";
+	public static String DANGER = "progress-bar-danger";
+	
 	public String getFileSize() {
 		return fileSize;
 	}
 
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
+	}
+
+	public String getProgressState() {
+		return progressState;
+	}
+
+	public void setProgressState(String progressState) {
+		this.progressState = progressState;
 	}
 
 	public String getContainerName() {
@@ -87,8 +103,8 @@ public class ProgressReport{
 	public String toString() {
 		return "ProgressReport [filePath=" + filePath + ", applicationInstanceType=" + applicationInstanceType
 				+ ", activityName=" + activityName + ", containerName=" + containerName + ", activityId=" + activityId
-				+ ", openStackId=" + openStackId + ", fileSize=" + fileSize + ", appTags=" + appTags
-				+ ", progressPercentage=" + progressPercentage + "]";
+				+ ", openStackId=" + openStackId + ", fileSize=" + fileSize + ", progressState=" + progressState
+				+ ", appTags=" + appTags + ", progressPercentage=" + progressPercentage + "]";
 	}
 	
 	
