@@ -2,17 +2,21 @@ package progressMonitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Sender {
+	
+	public static String[] labels = {"BACKUP","Notifications","Delta","Zipping","EETS"};
+	
 	public static void main(String[] args) {
 		ServerSettings.reportingServerPath = "ws://localhost:8080/gs-guide-websocket/";
 		
 		List<Thread> threadList = new ArrayList<>();
 		
-		for (int i = 1; i <= 100; i++) {			
-			WorkerJob wj = new Sender(). new WorkerJob(); 
+		for (int i = 1; i <= 20; i++) {			
+			WorkerJob wj = new Sender(). new WorkerJob();  
 			wj.processValue = "P-"+i;
-			Thread t = new Thread(wj);	
+			Thread t = new Thread(wj);
 			t.start();
 			//doLongProgress(500);
 			threadList.add(t);
@@ -23,19 +27,27 @@ public class Sender {
 			try {
 				t.join();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				e.printStackTrace(); 
 			}
 		}
 		
-		System.out.println("Sending done...");
+		System.out.println("Sending done..."); 
 	}
 	
-	public static int randomNumber(){
-		double randomDouble = Math.random();
+	
+	public static int randomNumber(){	
+		double randomDouble = Math.random();	
 		randomDouble = randomDouble * 5 + 1;
 		int randomInt = (int) randomDouble;
 		return randomInt;
 	}
+	
+	
+	public static int randomFromRange() {	
+		Random random = new Random();
+		return random.nextInt(5);
+	}
+	
 
 	public static void spawnProgress(String processName) {
 		String identifier = null;
@@ -48,7 +60,8 @@ public class Sender {
 		ProgressReport report = new ProgressReport();
 		report.setFilePath(identifier);
 		report.setActivityName("SA_DOWNLOAD:"+processName);
-		report.setApplicationInstanceType("BACKUP");
+		
+		report.setApplicationInstanceType(labels[randomFromRange()]);  
 		report.setProgressPercentage(0);
 		report.setActivityId(processName);
 		report.setContainerName("SAMPLE_CONTAINER");
@@ -60,10 +73,11 @@ public class Sender {
 		
 		int shouldIPause = randomNumber();
 		
-//		int delay = 1000;
+//		int 
+//		delay = 1000;
 		
 
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= 100; i++) { 
 			doLongProgress(delay);
 			report.setProgressPercentage(i);
 			report.setFileSize(i+"/100MB");

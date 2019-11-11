@@ -10,6 +10,8 @@ app.controller("HomeController", function($scope) {
 	$scope.stompClient = null;
 	$scope.socket = null;
 	
+	$scope.tabs = [];
+	
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
@@ -55,6 +57,7 @@ app.controller("HomeController", function($scope) {
     
     $scope.refreshGrid = function (){
     	$scope.progressItems = {};
+    	$scope.tabs = [];
     	
     	$scope.totalCount = 0;
     	$scope.inProgressCount = 0;
@@ -96,9 +99,42 @@ app.controller("HomeController", function($scope) {
     			$scope.completedCount++; 			
     		}
     	}
+    	
+    	$scope.handleTabs(greetingObj);
+    }
+    
+    $scope.handleTabs = function(greetingObj){
+    	//$scope.tabs
+    	if(!$scope.tabs.includes(greetingObj.applicationInstanceType)){
+    		$scope.tabs.push(greetingObj.applicationInstanceType);
+    	}
     }
     
     
     $scope.connect();
 });
 
+
+app.filter("TabFilter", function() { // register new filter
+
+	  return function(input, tabValue) { // filter arguments
+
+//		console.log("tab filter called = ");
+//		console.log(input);
+//		console.log(tabValue);
+//		console.log("-----------------------");
+		
+	    var out = [];
+	    
+	    angular.forEach(input, function(message) {
+
+	        if (message.applicationInstanceType === tabValue) {
+	          out.push(message);
+	        }
+
+	     });
+	    
+	    return out;
+
+	  };
+	});

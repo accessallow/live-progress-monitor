@@ -34,7 +34,8 @@
 							</button>
 
 							<button title="Reconnect" style="margin-right: 5px;"
-								class="btn btn-warning btn-xs pull-right" ng-click="reConnect();">
+								class="btn btn-warning btn-xs pull-right"
+								ng-click="reConnect();">
 								<span class="glyphicon glyphicon-transfer" />
 							</button>
 						</td>
@@ -63,47 +64,89 @@
 			</div>
 
 		</div>
-		<div class="row">
+		
+		
+		<div class="row" ng-show="totalCount>0">
 			<div class="col-md-12">
-				<table id="conversation"
-					class="table table-hover table-striped table-bordered table-condensed">
-					<thead>
-						<tr
-							style="background: #e8efff; color: black; font-weight: bold; font-size: 0.9em;">
-							<th>File Path</th>
-							<th>Process</th>
-							<th>Activity-Id</th>
-							<th>Container</th>
-							<th>OpenStack-Id</th>
-							<th>Size</th>
-							<th>Completion %</th>
-						</tr>
-					</thead>
-					<tbody id="greetings" >
-						<tr ng-repeat="(pKey,progressItem) in progressItems">
-							<td>{{progressItem.filePath}}</td>
-							<td>{{progressItem.activityName}}</td>
-							<td>{{progressItem.activityId}}</td>
-							<td>{{progressItem.containerName}}</td>
-							<td>{{progressItem.openStackId}}</td>
-							<td>{{progressItem.fileSize}}</td>
-							<td>
-								<div class="progress">
-									<div class="progress-bar {{progressItem.progressState}}" role="progressbar" 
-									style="width: {{progressItem.progressPercentage}}%;" 
-									aria-valuenow="{{progressItem.progressPercentage}}" 
-									aria-valuemin="0" 
-									aria-valuemax="100">{{progressItem.progressPercentage}}%</div>
+
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					
+					<!-- Default tab -->
+					<li class="nav-item {{$first ? 'active':''}}" ng-repeat="tab in tabs">
+						<a class="nav-link {{$first ? 'active':''}}" id="home-{{tab}}"
+							data-toggle="tab" href="#{{tab}}" role="tab" aria-controls="{{tab}}"
+							aria-selected="true">{{tab}}</a>
+					</li>
+						
+					
+				</ul>
+				<div class="tab-content" id="myTabContent">
+				
+					
+					<div class="tab-pane {{$first ? 'active':''}}" id="{{tab}}" role="tabpanel" ng-repeat="tab in tabs"
+						aria-labelledby="home-{{tab}}" style="">
+						
+							<div class="row">
+								<div class="col-md-12">
+									<table id="conversation"
+										class="table table-hover table-striped table-bordered table-condensed">
+										<thead>
+											<tr
+												style="background: #e8efff; color: black; font-weight: bold; font-size: 0.9em;">
+												<th>File Path</th>
+												<th>Process</th>
+												<th>Activity-Id</th>
+												<th>Container</th>
+												<th>OpenStack-Id</th>
+												<th>Size</th>
+												<th>Completion %</th>
+											</tr>
+										</thead>
+										<tbody id="greetings">
+											<tr ng-repeat="(pKey,progressItem) in progressItems|TabFilter:tab">
+												<td>{{progressItem.filePath}}</td>
+												<td>{{progressItem.activityName}}</td>
+												<td>{{progressItem.activityId}}</td>
+												<td>{{progressItem.containerName}}</td>
+												<td>{{progressItem.openStackId}}</td>
+												<td>{{progressItem.fileSize}}</td>
+												<td>
+													<div class="progress">
+														<div class="progress-bar {{progressItem.progressState}}"
+															role="progressbar"
+															style="width: {{progressItem.progressPercentage}}%"
+															aria-valuenow="{{progressItem.progressPercentage}}"
+															aria-valuemin="0" aria-valuemax="100">{{progressItem.progressPercentage}}%</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
-							</td>
-						</tr>
-					</tbody>				
-				</table>
+							</div>
+						
+					</div>
+
+					
+				</div>
 			</div>
 		</div>
+		
+		
+
+
+
+
+
+		
+
+
+
+
+
 	</div>
-	
-	
+
+
 	<script src="/appAngular.js"></script>
 </body>
 </html>
